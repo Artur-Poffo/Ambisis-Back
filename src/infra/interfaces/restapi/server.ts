@@ -1,9 +1,10 @@
 import Fastify from "fastify";
+import { companyRoutes } from "./routes/company";
 
 const fastify = Fastify();
 
-fastify.get("/", async (request, reply) => {
-  return { hello: "world" };
+fastify.register(companyRoutes, {
+  prefix: "/companies",
 });
 
 fastify.listen({ port: 3333 }, (err, address) => {
