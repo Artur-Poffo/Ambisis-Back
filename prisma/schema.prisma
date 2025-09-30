@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id String @id @default(cuid())
+
+  company_name String
+  cnpj         String
+
+  zip_code     String
+  city         String
+  state        String
+  neighborhood String
+  street       String
+  complement   String?
+
+  environmental_license EnvironmentalLicense[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("companies")
+}
+
+model EnvironmentalLicense {
+  id String @id @default(cuid())
+
+  license_number       String
+  environmental_agency String
+
+  issued_at   DateTime
+  valid_until DateTime
+
+  company    Company @relation(fields: [company_id], references: [id])
+  company_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("environmental_licenses")
+}
