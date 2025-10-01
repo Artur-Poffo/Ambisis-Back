@@ -57,7 +57,7 @@ export class Company extends Entity<CompanyProps> {
   }
 }
 
-type CompanyCreateProps = {
+export type CompanyCreateProps = {
   companyName: string;
   cnpj: string;
 

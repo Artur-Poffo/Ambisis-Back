@@ -12,7 +12,7 @@ export class PrismaCompanyMapper {
       state: prismaCompany.state,
       neighborhood: prismaCompany.neighborhood,
       street: prismaCompany.street,
-      complement: prismaCompany.complement,
+      complement: prismaCompany.complement || undefined,
     });
   }
 }

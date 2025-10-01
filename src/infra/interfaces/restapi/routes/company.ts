@@ -1,11 +1,24 @@
 import { CreateCompanyUseCase } from "@/domain/application/usecases/create-company";
+import { ListAllCompaniesUseCase } from "@/domain/application/usecases/list-all-companies";
 import { PrismaCompanyRepository } from "@/infra/database/repositories/prisma/company";
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
+import { RestApiCompanyPresenter } from "../presenters/company";
 
 export async function companyRoutes(fastify: FastifyInstance) {
-  fastify.get("/", async (request, reply) => {
-    return { hello: "world" };
+  fastify.get("/", async (_request, reply) => {
+    const companyRepository = new PrismaCompanyRepository();
+    const listAllCompaniesUseCase = new ListAllCompaniesUseCase(
+      companyRepository
+    );
+
+    const { companies } = await listAllCompaniesUseCase.execute();
+
+    reply.status(200).send({
+      companies: companies.map((company) =>
+        RestApiCompanyPresenter.toRestApiResponse(company)
+      ),
+    });
   });
 
   fastify.post("/", async (request, reply) => {
@@ -37,6 +50,8 @@ export async function companyRoutes(fastify: FastifyInstance) {
       street: parsedBody.data.street,
       complement: parsedBody.data.complement ?? undefined,
     });
+
+    reply.status(201);
   });
 
   fastify.put("/:companyId", async (request, reply) => {

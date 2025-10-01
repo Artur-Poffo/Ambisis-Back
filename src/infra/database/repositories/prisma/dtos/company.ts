@@ -7,7 +7,7 @@ export interface PrismaCompanyDto {
   state: string;
   neighborhood: string;
   street: string;
-  complement: string | undefined;
+  complement: string | null;
   created_at: Date;
   updated_at: Date;
 }

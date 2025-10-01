@@ -3,6 +3,10 @@ import { companyRoutes } from "./routes/company";
 
 const fastify = Fastify();
 
+fastify.get("/", async (request, reply) => {
+  return { message: "Welcome to Ambisis API" };
+});
+
 fastify.register(companyRoutes, {
   prefix: "/companies",
 });
