@@ -5,6 +5,7 @@ import type { FastifyInstance } from "fastify";
 import z from "zod";
 import { RestApiEnvironmentalLicensePresenter } from "../presenters/environmental-license";
 import { UpdateEnvironmentalLicenseUseCase } from "@/domain/application/usecases/update-environmental-license";
+import { DeleteEnvironmentalLicense } from "@/domain/application/usecases/delete-environmental-license";
 
 export async function environmentalLicenseRoutes(fastify: FastifyInstance) {
   fastify.get("/", async (request, reply) => {
@@ -114,5 +115,28 @@ export async function environmentalLicenseRoutes(fastify: FastifyInstance) {
     reply.status(204).send();
   });
 
-  fastify.delete("/:licenseId", async (request, reply) => {});
+  fastify.delete("/:licenseId", async (request, reply) => {
+    const deleteEnvironmentalLicenseParamsSchema = z.object({
+      licenseId: z.string(),
+    });
+
+    const environmentalLicenseRepository =
+      new PrismaEnvironmentalLicenseRepository();
+    const deleteEnvironmentalLicenseUseCase = new DeleteEnvironmentalLicense(
+      environmentalLicenseRepository
+    );
+
+    const parsedParams = deleteEnvironmentalLicenseParamsSchema.safeParse(
+      request.params
+    );
+
+    if (!parsedParams.success)
+      return reply.status(400).send(parsedParams.error);
+
+    await deleteEnvironmentalLicenseUseCase.execute({
+      licenseId: parsedParams.data.licenseId,
+    });
+
+    reply.status(204).send();
+  });
 }

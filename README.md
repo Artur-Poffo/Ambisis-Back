@@ -7,9 +7,10 @@
   - [x] Read -> List all, filter on client-side -> Simpler
   - [x] Update -> Simple Update
   - [x] Delete -> Simple Delete + Cascade delete EnvironmentalLicenses
-- [ ] EnvironmentalLicense
+- [x] EnvironmentalLicense
   - [x] Create -> And attach to Company
   - [x] Read -> List all from Company
-  - [ ] Update -> Simple Update
-  - [ ] Delete -> Simple Delete
+  - [x] Update -> Simple Update
+  - [x] Delete -> Simple Delete
+- [ ] Review entire project
 - [ ] Documentation
