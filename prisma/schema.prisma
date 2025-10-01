@@ -45,6 +45,7 @@ model EnvironmentalLicense {
   issued_at   DateTime
   valid_until DateTime
 
+  // Em um sistema real, ao invés de usar um delete normal com cascade, pode ser interessante guardar esses dados, nesses casos podemos fazer um soft delete e manter o dado salvo no banco
   company    Company @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   company_id String
 

@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import { companyRoutes } from "./routes/company";
+import { environmentalLicenseRoutes } from "./routes/environmental-license";
 
 const fastify = Fastify();
 
@@ -9,6 +10,10 @@ fastify.get("/", async (request, reply) => {
 
 fastify.register(companyRoutes, {
   prefix: "/companies",
+});
+
+fastify.register(environmentalLicenseRoutes, {
+  prefix: "/environmental-licenses",
 });
 
 fastify.listen({ port: 3333 }, (err, address) => {
