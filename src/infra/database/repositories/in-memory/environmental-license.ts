@@ -1,45 +1,43 @@
 import type { EnvironmentalLicenseRepository } from "@/domain/application/repositories/environmental-license";
 import type { EnvironmentalLicense } from "@/domain/enterprise/entities/environmental-license";
 
-export class InMemoryEnvironmentalLicense
+export class InMemoryEnvironmentalLicenseRepository
   implements EnvironmentalLicenseRepository
 {
-  environmentalLicenses: EnvironmentalLicense[] = [];
+  licenses: EnvironmentalLicense[] = [];
 
   async findById(id: string): Promise<EnvironmentalLicense | null> {
-    const license = this.environmentalLicenses.find(
-      (license) => license.id === id
-    );
+    const license = this.licenses.find((license) => license.id === id);
     if (!license) return null;
 
     return license;
   }
 
   async findAllFromCompany(companyId: string): Promise<EnvironmentalLicense[]> {
-    return this.environmentalLicenses.filter(
+    return this.licenses.filter(
       (environmentalLicense) => environmentalLicense.companyId === companyId
     );
   }
 
   async create(environmentalLicense: EnvironmentalLicense): Promise<void> {
-    this.environmentalLicenses.push(environmentalLicense);
+    this.licenses.push(environmentalLicense);
   }
 
   async update(environmentalLicense: EnvironmentalLicense): Promise<void> {
-    const licenseToUpdate = this.environmentalLicenses.findIndex(
+    const licenseToUpdate = this.licenses.findIndex(
       (license) => license.id === environmentalLicense.id
     );
     if (licenseToUpdate === -1) return;
 
-    this.environmentalLicenses[licenseToUpdate] = environmentalLicense;
+    this.licenses[licenseToUpdate] = environmentalLicense;
   }
 
   async delete(environmentalLicense: EnvironmentalLicense): Promise<void> {
-    const licenseToDelete = this.environmentalLicenses.findIndex(
+    const licenseToDelete = this.licenses.findIndex(
       (license) => license.id === environmentalLicense.id
     );
     if (licenseToDelete === -1) return;
 
-    this.environmentalLicenses.splice(licenseToDelete, 1);
+    this.licenses.splice(licenseToDelete, 1);
   }
 }
