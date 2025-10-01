@@ -4,6 +4,7 @@ import { PrismaEnvironmentalLicenseRepository } from "@/infra/database/repositor
 import type { FastifyInstance } from "fastify";
 import z from "zod";
 import { RestApiEnvironmentalLicensePresenter } from "../presenters/environmental-license";
+import { UpdateEnvironmentalLicenseUseCase } from "@/domain/application/usecases/update-environmental-license";
 
 export async function environmentalLicenseRoutes(fastify: FastifyInstance) {
   fastify.get("/", async (request, reply) => {
@@ -69,7 +70,49 @@ export async function environmentalLicenseRoutes(fastify: FastifyInstance) {
     });
   });
 
-  fastify.put("/:licenseId", async (request, reply) => {});
+  fastify.put("/:licenseId", async (request, reply) => {
+    const updateEnvironmentalLicenseParamsSchema = z.object({
+      licenseId: z.string(),
+    });
+
+    const updateEnvironmentalLicenseBodySchema = z.object({
+      licenseNumber: z.string().optional().nullable(),
+      environmentalAgency: z.string().optional().nullable(),
+      issuedAt: z.string().optional().nullable(),
+      validUntil: z.string().optional().nullable(),
+    });
+
+    const environmentalLicenseRepository =
+      new PrismaEnvironmentalLicenseRepository();
+    const updateEnvironmentalLicenseUseCase =
+      new UpdateEnvironmentalLicenseUseCase(environmentalLicenseRepository);
+
+    const parsedParams = updateEnvironmentalLicenseParamsSchema.safeParse(
+      request.params
+    );
+    const parsedBody = updateEnvironmentalLicenseBodySchema.safeParse(
+      request.body
+    );
+
+    if (!parsedParams.success || !parsedBody.success)
+      return reply.status(400).send(parsedParams.error || parsedBody.error);
+
+    await updateEnvironmentalLicenseUseCase.execute({
+      licenseId: parsedParams.data.licenseId,
+
+      licenseNumber: parsedBody.data.licenseNumber || undefined,
+      environmentalAgency: parsedBody.data.environmentalAgency || undefined,
+
+      issuedAt: parsedBody.data.issuedAt
+        ? new Date(parsedBody.data.issuedAt)
+        : undefined,
+      validUntil: parsedBody.data.validUntil
+        ? new Date(parsedBody.data.validUntil)
+        : undefined,
+    });
+
+    reply.status(204).send();
+  });
 
   fastify.delete("/:licenseId", async (request, reply) => {});
 }
