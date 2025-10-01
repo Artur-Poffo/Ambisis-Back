@@ -1,7 +1,8 @@
 import type { CompanyRepository } from "@/domain/application/repositories/company";
 import type { Company } from "@/domain/enterprise/entities/company";
-import { prisma } from "../../prisma";
+
 import { PrismaCompanyMapper } from "./dtos/mappers/company";
+import { prisma } from "./prisma-client";
 
 export class PrismaCompanyRepository implements CompanyRepository {
   async findById(id: string) {

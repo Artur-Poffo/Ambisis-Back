@@ -1,7 +1,8 @@
 import type { EnvironmentalLicenseRepository } from "@/domain/application/repositories/environmental-license";
 import type { EnvironmentalLicense } from "@/domain/enterprise/entities/environmental-license";
-import { prisma } from "../../prisma";
+
 import { PrismaEnvironmentalLicenseMapper } from "./dtos/mappers/environmental-license";
+import { prisma } from "./prisma-client";
 
 export class PrismaEnvironmentalLicenseRepository
   implements EnvironmentalLicenseRepository
