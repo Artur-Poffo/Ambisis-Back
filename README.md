@@ -5,7 +5,7 @@
 - [ ] Companies
   - [x] Create
   - [x] Read -> List all, filter on client-side -> Simpler
-  - [ ] Update -> Simple Update
+  - [x] Update -> Simple Update
   - [ ] Delete -> Simple Delete + Cascade delete EnvironmentalLicenses
 - [ ] EnvironmentalLicense
   - [ ] Create -> And attach to Company

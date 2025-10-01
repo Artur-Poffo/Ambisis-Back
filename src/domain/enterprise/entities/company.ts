@@ -48,6 +48,38 @@ export class Company extends Entity<CompanyProps> {
     return this.props.complement;
   }
 
+  set companyName(value: string) {
+    this.props.companyName = value;
+  }
+
+  set cnpj(value: string) {
+    this.props.cnpj = value;
+  }
+
+  set zipCode(value: string) {
+    this.props.zipCode = value;
+  }
+
+  set city(value: string) {
+    this.props.city = value;
+  }
+
+  set state(value: string) {
+    this.props.state = value;
+  }
+
+  set neighborhood(value: string) {
+    this.props.neighborhood = value;
+  }
+
+  set street(value: string) {
+    this.props.street = value;
+  }
+
+  set complement(value: string | undefined) {
+    this.props.complement = value;
+  }
+
   static create(props: CompanyProps) {
     return new Company(props);
   }
