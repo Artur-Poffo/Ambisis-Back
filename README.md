@@ -4,11 +4,12 @@
 
 - [ ] Companies
   - [x] Create
-  - [ ] Read
-  - [ ] Update
-  - [ ] Delete
+  - [ ] Read -> List all, filter on client-side -> Simpler
+  - [ ] Update -> Simple Update
+  - [ ] Delete -> Simple Delete + Cascade delete EnvironmentalLicenses
 - [ ] EnvironmentalLicense
-  - [ ] Create
-  - [ ] Read
-  - [ ] Update
-  - [ ] Delete
+  - [ ] Create -> And attach to Company
+  - [ ] Read -> List all from Company
+  - [ ] Update -> Simple Update
+  - [ ] Delete -> Simple Delete
+- [ ] Documentation

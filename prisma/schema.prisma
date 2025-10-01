@@ -8,6 +8,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/**
+ * Durante este desafio técnico, optei por manter MER simples, como descrito na documentação.
+ * No entanto, é importante ressaltar que, em um cenário real, o MER seria mais detalhado.
+ * Isso incluiria, por exemplo, a criação de tabelas separadas para armazenar informações de endereço
+ * e de órgãos ambientais, cada uma com seus próprios relacionamentos específicos.
+ */
+
 model Company {
   id String @id @default(cuid())
 
