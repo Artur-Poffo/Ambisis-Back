@@ -5,6 +5,7 @@ import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { RestApiCompanyPresenter } from "../presenters/company";
 import { UpdateCompanyUseCase } from "@/domain/application/usecases/update-company";
+import { DeleteCompany } from "@/domain/application/usecases/delete-company";
 
 export async function companyRoutes(fastify: FastifyInstance) {
   fastify.get("/", async (_request, reply) => {
@@ -98,6 +99,22 @@ export async function companyRoutes(fastify: FastifyInstance) {
   });
 
   fastify.delete("/:companyId", async (request, reply) => {
-    return { hello: "world" };
+    const deleteCompanyParamsSchema = z.object({
+      companyId: z.string(),
+    });
+
+    const companyRepository = new PrismaCompanyRepository();
+    const deleteCompanyUseCase = new DeleteCompany(companyRepository);
+
+    const parsedParams = deleteCompanyParamsSchema.safeParse(request.params);
+
+    if (!parsedParams.success)
+      return reply.status(400).send(parsedParams.error);
+
+    await deleteCompanyUseCase.execute({
+      companyId: parsedParams.data.companyId,
+    });
+
+    reply.status(204);
   });
 }

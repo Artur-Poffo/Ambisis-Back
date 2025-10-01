@@ -27,4 +27,13 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     this.companies[companyToUpdate] = company;
   }
+
+  async delete(company: Company) {
+    const companyToDelete = this.companies.findIndex(
+      (companyToUpdate) => companyToUpdate.id === company.id
+    );
+    if (companyToDelete === -1) return;
+
+    this.companies.splice(companyToDelete, 1);
+  }
 }

@@ -57,4 +57,12 @@ export class PrismaCompanyRepository implements CompanyRepository {
       },
     });
   }
+
+  async delete(company: Company) {
+    await prisma.company.delete({
+      where: {
+        id: company.id,
+      },
+    });
+  }
 }

@@ -5,4 +5,5 @@ export interface CompanyRepository {
   findAll: () => Promise<Company[]>;
   create: (company: Company) => Promise<void>;
   update: (company: Company) => Promise<void>;
+  delete: (company: Company) => Promise<void>;
 }
