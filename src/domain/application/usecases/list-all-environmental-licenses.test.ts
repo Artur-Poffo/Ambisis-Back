@@ -1,12 +1,12 @@
 import { InMemoryEnvironmentalLicenseRepository } from "@/infra/database/repositories/in-memory/environmental-license";
-import { ListAllEnvironmentalLicensesFromCompanyUseCase } from "./list-all-environmental-license-from-company";
-import { makeCompany } from "@/domain/enterprise/entities/factories/company";
+import { ListAllEnvironmentalLicensesUseCase } from "./list-all-environmental-licenses";
 import { makeEnvironmentalLicense } from "@/domain/enterprise/entities/factories/environmental-license";
+import { makeCompany } from "@/domain/enterprise/entities/factories/company";
 
 function makeSut() {
   const environmentalLicenseRepository =
     new InMemoryEnvironmentalLicenseRepository();
-  const sut = new ListAllEnvironmentalLicensesFromCompanyUseCase(
+  const sut = new ListAllEnvironmentalLicensesUseCase(
     environmentalLicenseRepository
   );
 
@@ -16,8 +16,32 @@ function makeSut() {
   };
 }
 
-describe("ListAllEnvironmentalLicensesFromCompanyUseCase", () => {
-  test("Deve listar todas as licenças ambientais de uma empresa específica", async () => {
+describe("ListAllEnvironmentalLicensesUseCase", () => {
+  test("Deve listar todas as licenças ambientais existentes", async () => {
+    const { sut, environmentalLicenseRepository } = makeSut();
+
+    for (let i = 0; i < 10; i++) {
+      const environmentalLicenseToCreate = makeEnvironmentalLicense({
+        licenseNumber: `License ${i + 1}`,
+      });
+      environmentalLicenseRepository.create(environmentalLicenseToCreate);
+    }
+
+    const { environmentalLicenses } = await sut.execute({});
+
+    expect(environmentalLicenses).toHaveLength(10);
+    expect(environmentalLicenses).toEqual(
+      expect.arrayContaining(
+        Array.from({ length: 10 }, (_, i) =>
+          expect.objectContaining({
+            licenseNumber: `License ${i + 1}`,
+          })
+        )
+      )
+    );
+  });
+
+  test("Deve listar todas as licenças ambientais de uma empresa específica caso receba o filtro existentes", async () => {
     const { sut, environmentalLicenseRepository } = makeSut();
 
     const company = makeCompany();

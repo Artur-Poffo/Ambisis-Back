@@ -18,13 +18,8 @@ export class PrismaEnvironmentalLicenseRepository
     return PrismaEnvironmentalLicenseMapper.toEntity(license);
   }
 
-  async findAllFromCompany(companyId: string): Promise<EnvironmentalLicense[]> {
-    const licenses = await prisma.environmentalLicense.findMany({
-      where: {
-        company_id: companyId,
-      },
-    });
-
+  async findAll(): Promise<EnvironmentalLicense[]> {
+    const licenses = await prisma.environmentalLicense.findMany();
     return licenses.map((license) =>
       PrismaEnvironmentalLicenseMapper.toEntity(license)
     );

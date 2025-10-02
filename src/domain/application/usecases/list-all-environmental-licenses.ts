@@ -3,7 +3,7 @@ import type { UseCase } from "@/core/usecases/usecase";
 import type { EnvironmentalLicenseRepository } from "../repositories/environmental-license";
 import type { EnvironmentalLicense } from "@/domain/enterprise/entities/environmental-license";
 
-export class ListAllEnvironmentalLicensesFromCompanyUseCase
+export class ListAllEnvironmentalLicensesUseCase
   implements UseCase<Input, Output>
 {
   constructor(
@@ -11,15 +11,23 @@ export class ListAllEnvironmentalLicensesFromCompanyUseCase
   ) {}
 
   async execute({ companyId }: Input): Promise<Output> {
-    const allEnvironmentalLicensesFromCompany =
-      await this.environmentalLicenseRepository.findAllFromCompany(companyId);
+    const allEnvironmentalLicenses =
+      await this.environmentalLicenseRepository.findAll();
 
-    return { environmentalLicenses: allEnvironmentalLicensesFromCompany };
+    if (!companyId) {
+      return { environmentalLicenses: allEnvironmentalLicenses };
+    }
+
+    return {
+      environmentalLicenses: allEnvironmentalLicenses.filter(
+        (environmentalLicense) => environmentalLicense.companyId === companyId
+      ),
+    };
   }
 }
 
 interface Input {
-  companyId: string;
+  companyId?: string | undefined;
 }
 
 interface Output {

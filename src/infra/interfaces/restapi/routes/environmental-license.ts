@@ -1,16 +1,16 @@
 import { CreateEnvironmentalLicenseUseCase } from "@/domain/application/usecases/create-environmental-license";
-import { ListAllEnvironmentalLicensesFromCompanyUseCase } from "@/domain/application/usecases/list-all-environmental-license-from-company";
 import { PrismaEnvironmentalLicenseRepository } from "@/infra/database/repositories/prisma/environmental-license";
 import type { FastifyInstance } from "fastify";
 import z from "zod";
 import { RestApiEnvironmentalLicensePresenter } from "../presenters/environmental-license";
 import { UpdateEnvironmentalLicenseUseCase } from "@/domain/application/usecases/update-environmental-license";
 import { DeleteEnvironmentalLicense } from "@/domain/application/usecases/delete-environmental-license";
+import { ListAllEnvironmentalLicensesUseCase } from "@/domain/application/usecases/list-all-environmental-licenses";
 
 export async function environmentalLicenseRoutes(fastify: FastifyInstance) {
   fastify.get("/", async (request, reply) => {
     const listAllEnvironmentalLicensesParamsSchema = z.object({
-      companyId: z.string(),
+      companyId: z.string().optional().nullable(),
     });
 
     const parsedQuery = listAllEnvironmentalLicensesParamsSchema.safeParse(
@@ -22,13 +22,11 @@ export async function environmentalLicenseRoutes(fastify: FastifyInstance) {
     const environmentalLicenseRepository =
       new PrismaEnvironmentalLicenseRepository();
     const listAllEnvironmentalLicensesUseCase =
-      new ListAllEnvironmentalLicensesFromCompanyUseCase(
-        environmentalLicenseRepository
-      );
+      new ListAllEnvironmentalLicensesUseCase(environmentalLicenseRepository);
 
     const { environmentalLicenses } =
       await listAllEnvironmentalLicensesUseCase.execute({
-        companyId: parsedQuery.data.companyId,
+        companyId: parsedQuery.data.companyId || undefined,
       });
 
     reply.status(200).send({

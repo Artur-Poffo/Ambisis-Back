@@ -13,10 +13,8 @@ export class InMemoryEnvironmentalLicenseRepository
     return license;
   }
 
-  async findAllFromCompany(companyId: string): Promise<EnvironmentalLicense[]> {
-    return this.licenses.filter(
-      (environmentalLicense) => environmentalLicense.companyId === companyId
-    );
+  async findAll(): Promise<EnvironmentalLicense[]> {
+    return this.licenses;
   }
 
   async create(environmentalLicense: EnvironmentalLicense): Promise<void> {
