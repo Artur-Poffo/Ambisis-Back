@@ -1,8 +1,15 @@
 import Fastify from "fastify";
 import { companyRoutes } from "./routes/company";
 import { environmentalLicenseRoutes } from "./routes/environmental-license";
+import cors from "@fastify/cors";
 
 const fastify = Fastify();
+
+// Esta configuração de CORS permite que qualquer IP acesse nossa API livremente.
+// Em aplicações reais, isso não é recomendado, mas para este caso específico, é suficiente.
+fastify.register(cors, {
+  methods: ["GET", "POST", "PUT", "DELETE"],
+});
 
 fastify.get("/", async (request, reply) => {
   return { message: "Welcome to Ambisis API" };

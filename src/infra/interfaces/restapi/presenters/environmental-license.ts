@@ -7,8 +7,8 @@ export class RestApiEnvironmentalLicensePresenter {
       licenseNumber: license.licenseNumber,
       environmentalAgency: license.environmentalAgency,
       companyId: license.companyId,
-      issuedAt: license.issuedAt,
-      validUntil: license.validUntil,
+      issuedAt: license.issuedAt.toISOString(),
+      validUntil: license.validUntil.toISOString(),
     };
   }
 }
