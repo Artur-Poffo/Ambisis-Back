@@ -1,6 +1,6 @@
 # Ambisis - Back-End
 
-<h4 align="center"> 
+<h4 align="start"> 
 	 💡 Sei que isso pode parecer over-engineering para projetos sem potencial de escalabilidade, mas como este é um processo seletivo, quis apresentar uma solução completa e bem estruturada.
 </h4>
 
