@@ -16,7 +16,7 @@ datasource db {
  */
 
 model Company {
-  id String @id @default(cuid())
+  id String @id @default(uuid())
 
   company_name String
   cnpj         String
@@ -37,7 +37,7 @@ model Company {
 }
 
 model EnvironmentalLicense {
-  id String @id @default(cuid())
+  id String @id @default(uuid())
 
   license_number       String
   environmental_agency String
