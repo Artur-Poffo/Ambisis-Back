@@ -24,6 +24,8 @@ export class PrismaCompanyRepository implements CompanyRepository {
   async create(company: Company) {
     await prisma.company.create({
       data: {
+        id: company.id,
+
         company_name: company.companyName,
         cnpj: company.cnpj,
         zip_code: company.zipCode,
